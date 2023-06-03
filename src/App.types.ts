@@ -19,6 +19,7 @@ export type VParsedHost = {
 export type VParsedStep = {
   nome: string;
   descricao: string;
+  etapa: string;
   mostrar: { flexa: string[] } | { texto: string };
   quando: {
     [key: string]: string;

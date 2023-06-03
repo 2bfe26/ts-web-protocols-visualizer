@@ -16,6 +16,7 @@ const VSchema = joi.object({
       .object({
         nome: joi.string().required(),
         descricao: joi.string(),
+        etapa: joi.string(),
         mostrar: joi
           .alternatives()
           .try(
@@ -40,7 +41,7 @@ export function parserV(src: string): VParsed | null {
     const { error } = VSchema.validate(parsed, { allowUnknown: true });
 
     if (error) {
-      throw new Error("Validation Error");
+      throw new Error(String(error));
     }
 
     return parsed;

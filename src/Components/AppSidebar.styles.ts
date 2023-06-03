@@ -17,4 +17,17 @@ export const Header = styled("header", {
     objectFit: "contain",
     width: 35,
   },
+
+  button: {
+    all: "unset",
+    cursor: "pointer",
+
+    "&:hover": {
+      opacity: 0.6,
+    },
+
+    "&:active": {
+      opacity: 0.3,
+    },
+  },
 });

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Root, Header, Playground, Actions, Content } from "./Play.styles";
 import { useAppStore } from "../App.store";
@@ -14,13 +14,28 @@ export function Play() {
 
   const v = useAppStore((state) => state.vs.find((v) => v.id === p.id)) as V;
 
-  const [currentStep, setCurrentStep] = useState<VParsedStep>(
-    v.parsed?.passos[v.parsed.primeiroPasso - 1] as VParsedStep
+  const [stack, setStack] = useState<string[]>([]);
+  const createStackEntry = useCallback(
+    (step: VParsedStep): string => {
+      if ("flexa" in step.mostrar) {
+        const dir = getArrowDirection(step, v.parsed?.hospedeiros as any);
+
+        return dir === "ArrowLeft" ? `< ${step.nome}` : `> ${step.nome}`;
+      }
+
+      return step.nome;
+    },
+    [v.parsed]
   );
+
+  const [currentStep, setCurrentStep] = useState<VParsedStep>(() => {
+    return v.parsed?.passos[v.parsed.primeiroPasso - 1] as VParsedStep;
+  });
   // @ts-ignore
   const [, setCurrentIndex] = useState(v.parsed?.primeiroPasso - 1);
 
-  const [done, setDone] = useState(true);
+  const [done, setDone] = useState(false);
+  const [modalRetry, setModalRetry] = useState(false);
 
   // @ts-ignore
   const host1 = Object.values(v.parsed?.hospedeiros)[0];
@@ -37,22 +52,34 @@ export function Play() {
     () => ({
       fns: {
         irPara: (position: number) => {
-          setCurrentStep((v.parsed as VParsed).passos[position - 1]);
-          setCurrentIndex(position - 1);
+          const step = (v.parsed as VParsed).passos[position - 1];
+
+          setCurrentStep(step);
         },
         proximo: () => {
-          setCurrentIndex((old) => {
-            setCurrentStep((v.parsed as VParsed).passos[old + 1]);
-            return old + 1;
-          });
+          const currentIndex = v.parsed?.passos.findIndex(
+            (i) => JSON.stringify(i) === JSON.stringify(currentStep)
+          );
+          // @ts-ignore
+          const step = (v.parsed as VParsed).passos[currentIndex + 1];
+
+          setCurrentStep(step);
         },
         fim: () => {
-          setDone(true);
+          if (!done) {
+            setDone(true);
+          }
+
+          setModalRetry(true);
         },
       },
     }),
-    [setCurrentStep, setCurrentIndex, setDone, v.parsed]
+    [currentStep, setCurrentStep, setModalRetry, v.parsed, done]
   );
+
+  useEffect(() => {
+    setStack((i) => [...i, createStackEntry(currentStep)]);
+  }, [currentStep, createStackEntry]);
 
   return (
     <Root>
@@ -68,35 +95,79 @@ export function Play() {
       />
 
       <Content>
-        {done ? <ModalRetry /> : null}
-        <Header>
-          <div>
-            <h2>{v.title}</h2>
-            <h3>{v.description}</h3>
-          </div>
-        </Header>
-        <Playground>
-          <Popover label={host1} css={{ justifySelf: "flex-end" }}>
-            <Host type={host1} />
-          </Popover>
-          {hostAction}
-          <Popover label={host2} css={{ justifySelf: "flex-start" }}>
-            <Host type={host2} />
-          </Popover>
-        </Playground>
-        <Actions>
-          <span>{currentStep.descricao}</span>
-          <div>
-            {Object.entries(currentStep.quando).map(([label, expr]) => (
-              <Button key={label} onClick={() => run_expr(expr, exprContext)}>
-                {label}
-              </Button>
+        {done && modalRetry ? (
+          <ModalRetry
+            onClick={() => {
+              setCurrentStep(
+                v.parsed?.passos[v.parsed.primeiroPasso - 1] as VParsedStep
+              );
+              setCurrentIndex(0);
+              setDone(false);
+              setStack([]);
+            }}
+            onClickCancel={() => setModalRetry(false)}
+          />
+        ) : null}
+        <div className="left">
+          <Header>
+            <div>
+              <h2>{v.title}</h2>
+              <h3>{currentStep.etapa}</h3>
+            </div>
+          </Header>
+          <Playground>
+            <Popover label={host1} css={{ justifySelf: "flex-end" }}>
+              <Host type={host1} />
+            </Popover>
+            {hostAction}
+            <Popover label={host2} css={{ justifySelf: "flex-start" }}>
+              <Host type={host2} />
+            </Popover>
+          </Playground>
+          <Actions>
+            <span>{currentStep.descricao}</span>
+            <div>
+              {Object.entries(currentStep.quando).map(([label, expr]) => (
+                <Button key={label} onClick={() => run_expr(expr, exprContext)}>
+                  {label}
+                </Button>
+              ))}
+            </div>
+          </Actions>
+        </div>
+        <div className="right">
+          <span
+            style={{
+              marginLeft: -15,
+              marginBottom: 5,
+              fontWeight: "bold",
+              display: "block",
+            }}
+          >
+            Pilha de execução
+          </span>
+          <ol>
+            {stack.map((nome, i) => (
+              <li key={i}>{nome}</li>
             ))}
-          </div>
-        </Actions>
+          </ol>
+        </div>
       </Content>
     </Root>
   );
+}
+
+function getArrowDirection(currentStep: VParsedStep, hosts: VParsedHost) {
+  const p0i = Object.keys(hosts).findIndex(
+    // @ts-ignore
+    (h) => currentStep.mostrar.flexa[0] === h
+  );
+  const p1i = Object.keys(hosts).findIndex(
+    // @ts-ignore
+    (h) => currentStep.mostrar.flexa[1] === h
+  );
+
+  return p0i > p1i ? "ArrowLeft" : "ArrowRight";
 }
 
 function renderHostAction(currentStep: VParsedStep, hosts: VParsedHost) {
@@ -105,18 +176,9 @@ function renderHostAction(currentStep: VParsedStep, hosts: VParsedHost) {
   }
 
   if ("flexa" in currentStep.mostrar) {
-    const p0i = Object.keys(hosts).findIndex(
-      // @ts-ignore
-      (h) => currentStep.mostrar.flexa[0] === h
-    );
-    const p1i = Object.keys(hosts).findIndex(
-      // @ts-ignore
-      (h) => currentStep.mostrar.flexa[1] === h
-    );
-
     return (
       <HostAction
-        type={p0i > p1i ? "ArrowLeft" : "ArrowRight"}
+        type={getArrowDirection(currentStep, hosts)}
         value={currentStep.nome}
       />
     );

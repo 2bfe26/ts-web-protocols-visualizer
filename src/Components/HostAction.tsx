@@ -21,7 +21,14 @@ export function HostAction(props: HostActionProps) {
   if (type === "ArrowLeft") {
     return (
       <Root>
-        <span style={{ fontWeight: "bold", marginLeft: 10, marginBottom: 20 }}>
+        <span
+          style={{
+            fontWeight: "bold",
+            marginLeft: 10,
+            marginBottom: 20,
+            textAlign: "center",
+          }}
+        >
           {value}
         </span>
         <Arrow position="left" />
@@ -32,7 +39,14 @@ export function HostAction(props: HostActionProps) {
   if (type === "ArrowRight") {
     return (
       <Root>
-        <span style={{ fontWeight: "bold", marginRight: 10, marginBottom: 20 }}>
+        <span
+          style={{
+            fontWeight: "bold",
+            marginRight: 10,
+            marginBottom: 20,
+            textAlign: "center",
+          }}
+        >
           {value}
         </span>
         <Arrow position="right" />

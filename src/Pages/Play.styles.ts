@@ -10,13 +10,24 @@ export const Root = styled("div", {
 
 export const Content = styled("div", {
   padding: 25,
+  paddingRight: 0,
   height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  background: "white",
   border: "1px solid #e0e0e0",
   position: "relative",
+  background: "white",
+  display: "flex",
+
+  ".left": {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    flex: 1,
+  },
+
+  ".right": {
+    width: 140,
+    fontSize: 10,
+  },
 });
 
 export const Header = styled("header", {
@@ -36,7 +47,7 @@ export const Header = styled("header", {
     },
 
     h3: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: "normal",
     },
   },
@@ -50,14 +61,11 @@ export const Header = styled("header", {
 
 export const Playground = styled("div", {
   flex: 1,
-  background: "white",
   display: "grid",
   gridTemplateColumns: "1fr 3fr 1fr",
   alignItems: "center",
   alignSelf: "center",
-  padding: 64,
-  width: 800,
-  maxHeight: 1000,
+  width: "100%",
 
   "& div:nth-child(2)": {
     display: "flex",
@@ -78,6 +86,8 @@ export const Actions = styled("footer", {
     fontSize: 18,
     textAlign: "center",
     display: "block",
+    marginTop: "auto",
+    minHeight: 80,
   },
 
   div: {

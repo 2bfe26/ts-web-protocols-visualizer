@@ -19,8 +19,26 @@ export const Root = styled("div", {
   alignItems: "center",
   flexDirection: "column",
 
-  span: {
-    fontSize: 20,
-    fontWeight: "bold",
+  button: {
+    all: "unset",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    cursor: "pointer",
+    marginBottom: 15,
+
+    span: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+
+    "&:hover": {
+      opacity: 0.6,
+    },
+
+    "&:active": {
+      opacity: 0.3,
+    },
   },
 });

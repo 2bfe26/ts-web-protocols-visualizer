@@ -8,7 +8,7 @@ export function AppSidebar() {
     <Root>
       <Header>
         <button onClick={() => n("/")}>
-          <img src="/ufsc.png" />
+          <img src="./ufsc.png" />
         </button>
       </Header>
     </Root>

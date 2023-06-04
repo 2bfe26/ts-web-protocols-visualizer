@@ -1,7 +1,6 @@
 import yaml from "yaml";
 import joi from "joi";
 import { VParsed } from "./App.types";
-import { EffectCallback, useEffect } from "react";
 
 const VSchema = joi.object({
   entidades: joi

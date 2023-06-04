@@ -7,21 +7,22 @@ export type V = {
 };
 
 export type VParsed = {
-  hospedeiros: VParsedHost;
+  entidades: VParsedHost[];
   primeiroPasso: number;
   passos: VParsedStep[];
 };
 
 export type VParsedHost = {
-  [key: string]: "navegador" | "servidor";
+  nome: string;
+  tipo: "navegador" | "servidor";
 };
 
 export type VParsedStep = {
   nome: string;
   descricao: string;
   etapa: string;
-  mostrar: { flexa: string[] } | { texto: string };
-  quando: {
+  mostrar: { flecha: string[] } | { texto: string };
+  ações: {
     [key: string]: string;
   };
 };

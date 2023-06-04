@@ -3,11 +3,13 @@ import joi from "joi";
 import { VParsed } from "./App.types";
 
 const VSchema = joi.object({
-  hospedeiros: joi
-    .object()
-    .pattern(
-      joi.string(),
-      joi.string().valid("navegador", "cliente", "servidor")
+  entidades: joi
+    .array()
+    .items(
+      joi.object({
+        nome: joi.string(),
+        tipo: joi.string().valid("navegador", "cliente", "servidor"),
+      })
     )
     .required(),
   primeiroPasso: joi.number().required(),
@@ -21,14 +23,14 @@ const VSchema = joi.object({
           .alternatives()
           .try(
             joi.object({
-              flexa: joi.array().items(joi.string()).required(),
+              flecha: joi.array().items(joi.string()).required(),
             }),
             joi.object({
               texto: joi.string(),
             })
           )
           .required(),
-        quando: joi.object().pattern(joi.string(), joi.string()),
+        ações: joi.object().pattern(joi.string(), joi.string()),
       })
       .required()
   ),

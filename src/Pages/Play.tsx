@@ -17,8 +17,8 @@ export function Play() {
   const [stack, setStack] = useState<string[]>([]);
   const createStackEntry = useCallback(
     (step: VParsedStep): string => {
-      if ("flexa" in step.mostrar) {
-        const dir = getArrowDirection(step, v.parsed?.hospedeiros as any);
+      if ("flecha" in step.mostrar) {
+        const dir = getArrowDirection(step, v.parsed?.entidades as any);
 
         return dir === "ArrowLeft" ? `< ${step.nome}` : `> ${step.nome}`;
       }
@@ -37,15 +37,13 @@ export function Play() {
   const [done, setDone] = useState(false);
   const [modalRetry, setModalRetry] = useState(false);
 
-  // @ts-ignore
-  const host1 = Object.values(v.parsed?.hospedeiros)[0];
+  const host1 = v.parsed?.entidades[0] as VParsedHost;
 
-  // @ts-ignore
-  const host2 = Object.values(v.parsed?.hospedeiros)[1];
+  const host2 = v.parsed?.entidades[1] as VParsedHost;
 
   const hostAction = renderHostAction(
     currentStep,
-    (v.parsed as VParsed).hospedeiros
+    (v.parsed as VParsed).entidades
   );
 
   const exprContext: Context = useMemo(
@@ -116,18 +114,18 @@ export function Play() {
             </div>
           </Header>
           <Playground>
-            <Popover label={host1} css={{ justifySelf: "flex-end" }}>
-              <Host type={host1} />
+            <Popover label={host1.nome} css={{ justifySelf: "flex-end" }}>
+              <Host type={host1.tipo} />
             </Popover>
             {hostAction}
-            <Popover label={host2} css={{ justifySelf: "flex-start" }}>
-              <Host type={host2} />
+            <Popover label={host2.nome} css={{ justifySelf: "flex-start" }}>
+              <Host type={host2.tipo} />
             </Popover>
           </Playground>
           <Actions>
             <span>{currentStep.descricao}</span>
             <div>
-              {Object.entries(currentStep.quando).map(([label, expr]) => (
+              {Object.entries(currentStep.ações).map(([label, expr]) => (
                 <Button key={label} onClick={() => run_expr(expr, exprContext)}>
                   {label}
                 </Button>
@@ -157,25 +155,25 @@ export function Play() {
   );
 }
 
-function getArrowDirection(currentStep: VParsedStep, hosts: VParsedHost) {
-  const p0i = Object.keys(hosts).findIndex(
+function getArrowDirection(currentStep: VParsedStep, hosts: VParsedHost[]) {
+  const p0i = hosts.findIndex(
     // @ts-ignore
-    (h) => currentStep.mostrar.flexa[0] === h
+    (h) => currentStep.mostrar.flecha[0] === h.nome
   );
-  const p1i = Object.keys(hosts).findIndex(
+  const p1i = hosts.findIndex(
     // @ts-ignore
-    (h) => currentStep.mostrar.flexa[1] === h
+    (h) => currentStep.mostrar.flecha[1] === h.nome
   );
 
   return p0i > p1i ? "ArrowLeft" : "ArrowRight";
 }
 
-function renderHostAction(currentStep: VParsedStep, hosts: VParsedHost) {
+function renderHostAction(currentStep: VParsedStep, hosts: VParsedHost[]) {
   if ("texto" in currentStep.mostrar) {
     return <HostAction type="Text" value={currentStep.mostrar.texto} />;
   }
 
-  if ("flexa" in currentStep.mostrar) {
+  if ("flecha" in currentStep.mostrar) {
     return (
       <HostAction
         type={getArrowDirection(currentStep, hosts)}

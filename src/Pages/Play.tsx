@@ -53,10 +53,9 @@ export function Play() {
           setModalRetry(true);
           dispatch({ type: "SET_DONE", payload: true });
         },
-        when: (value: any, cases: any) => {
+        quando: (value: any, cases: any) => {
           for (const [k, v] of cases) {
             if (value == k) {
-              console.log("call?");
               // @ts-ignore
               v.call();
               return;

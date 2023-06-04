@@ -152,9 +152,9 @@ const EXAMPLE = {
   description: "Demonstrativo de capacidades do projeto",
   src: `
     entidades:
-      - nome: c
+      - nome: c1
         tipo: cliente
-      - nome: s
+      - nome: c2
         tipo: cliente
 
     primeiroPasso: 1
@@ -162,41 +162,33 @@ const EXAMPLE = {
     passos:
       - nome: Passo 1
         mostrar:
-          flecha: [c, s]
+          flecha: [c1, c2]
         ações:
           continuar: proximo()
           continuar_de_outra_forma: proximo()
-        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
 
       - nome: Passo 2
         mostrar:
           texto: hmmmmmm ....
         ações:
-          voltar: anterior()
           continuar: >
-            when(anterior.acao, [
+            quando(anterior.acao, [
               ["continuar", irPara!(4)],
-              ["continuar_de_outra_forma", irPara!(3)],
-              [orElse, alerta!("Isso não devia acontecer whoa")]
+              ["continuar_de_outra_forma", irPara!(3)]
             ])
 
       - nome: Passo 3
         mostrar:
-          texto: Você só está vendo esse passo por que escolheu "continuar_de_outra_forma"
+          texto: Você está vendo esse passo por que escolheu "continuar_de_outra_forma"
         ações:
           continuar: proximo()
-          voltar: anterior()
-          mostrar_etapa_anterior: alerta("O passo anterior foi ", anterior.nome)
-        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
+          mostrar_anterior: alerta("O passo anterior foi ", anterior.nome)
 
       - nome: Passo 4
         mostrar:
           texto: fim do exemplo
         ações:
-          voltar: anterior()
           finalizar: fim()
-        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
-
 `,
 };
 

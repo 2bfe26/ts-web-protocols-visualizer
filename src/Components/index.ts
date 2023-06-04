@@ -5,6 +5,6 @@ export * from "./Button";
 export * from "./Input";
 export * from "./Scroll";
 export * from "./Host";
-export * from "./HostAction";
+export * from "./HostFeedback";
 export * from "./AppHeader";
 export * from "./ModalRetry";

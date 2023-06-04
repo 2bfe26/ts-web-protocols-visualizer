@@ -6,7 +6,7 @@ const fadeIn = keyframes({
 });
 
 export const Root = styled("div", {
-  background: "rgba(255, 255, 255, 0.8)",
+  background: "rgba(255, 255, 255, 0.96)",
   zIndex: 99999,
   position: "absolute",
   left: 0,

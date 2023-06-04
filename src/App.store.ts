@@ -34,6 +34,6 @@ export const useAppStore = create(
         confirm("Deseja realmente remover a visualização") &&
         set({ vs: get().vs.filter((v) => v.id !== id) }),
     }),
-    { name: "ts-app-20" }
+    { name: "ts-app-22" }
   )
 );

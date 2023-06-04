@@ -17,7 +17,7 @@ const TLS_1_2_CONN = {
     
     passos:
       - nome: TCP SYN
-        etapa: 🤝 TCP Handshake
+        etapa: TCP Handshake 🤝
         mostrar:
           flecha: [c, s]
         ações:
@@ -25,7 +25,7 @@ const TLS_1_2_CONN = {
         descricao: O cliente envia uma solicitação inicial (SYN) para iniciar o handshake TCP.
     
       - nome: TCP SYN + ACK
-        etapa: 🤝 TCP Handshake
+        etapa: TCP Handshake 🤝
         mostrar:
           flecha: [s, c]
         ações:
@@ -33,7 +33,7 @@ const TLS_1_2_CONN = {
         descricao: O servidor recebe a solicitação do cliente (SYN), confirma a conexão (ACK) e envia uma resposta de confirmação ao cliente.
     
       - nome: TCP ACK
-        etapa: 🤝 TCP Handshake
+        etapa: TCP Handshake 🤝
         mostrar:
           flecha: [c, s]
         ações:
@@ -41,15 +41,15 @@ const TLS_1_2_CONN = {
         descricao: O cliente recebe a confirmação do servidor (ACK) e a conexão TCP é estabelecida.
     
       - nome: Connection established
-        etapa: 🔏 Certificate Check
+        etapa: Certificate Check 🔏
         mostrar:
-          texto: Conexão estabelecida
+          texto: 🥳 Conexão estabelecida 🥳
         ações:
           continuar: proximo()
         descricao: A conexão TCP foi estabelecida e agora o processo de verificação do certificado começa.
     
       - nome: Client Hello
-        etapa: 🔏 Certificate Check
+        etapa: Certificate Check 🔏
         mostrar:
           flecha: [c, s]
         ações:
@@ -57,7 +57,7 @@ const TLS_1_2_CONN = {
         descricao: O cliente envia uma mensagem "Client Hello" ao servidor, incluindo informações criptográficas e preferências de criptografia.
     
       - nome: Server Hello
-        etapa: 🔏 Certificate Check
+        etapa: Certificate Check 🔏
         mostrar:
           flecha: [s, c]
         ações:
@@ -65,7 +65,7 @@ const TLS_1_2_CONN = {
         descricao: O servidor responde com uma mensagem "Server Hello", selecionando uma suíte de criptografia apropriada e enviando seu certificado digital.
     
       - nome: Certificate
-        etapa: 🔏 Certificate Check
+        etapa: Certificate Check 🔏
         mostrar:
           flecha: [s, c]
         ações:
@@ -73,7 +73,7 @@ const TLS_1_2_CONN = {
         descricao: O cliente recebe o certificado do servidor e verifica sua autenticidade e validade.
     
       - nome: Server Hello Done
-        etapa: 🔏 Certificate Check
+        etapa: Certificate Check 🔏
         mostrar:
           flecha: [s, c]
         ações:
@@ -81,7 +81,7 @@ const TLS_1_2_CONN = {
         descricao: O servidor indica que concluiu as negociações e está pronto para receber a chave de criptografia.
     
       - nome: Client Key Exchange
-        etapa: 🔐 Key Exchange
+        etapa: Key Exchange 🔐
         mostrar:
           flecha: [c, s]
         ações:
@@ -89,7 +89,7 @@ const TLS_1_2_CONN = {
         descricao: O cliente gera uma chave de sessão e a criptografa usando a chave pública do servidor, enviando-a de volta ao servidor.
     
       - nome: Change Cipher Spec
-        etapa: 🔐 Key Exchange
+        etapa: Key Exchange 🔐
         mostrar:
           flecha: [c, s]
         ações:
@@ -97,7 +97,7 @@ const TLS_1_2_CONN = {
         descricao: O cliente notifica ao servidor que futuras mensagens serão criptografadas com a nova chave.
     
       - nome: Finished
-        etapa: 🔐 Key Exchange
+        etapa: Key Exchange 🔐
         mostrar:
           flecha: [c, s]
         ações:

@@ -8,91 +8,73 @@ export const Root = styled("div", {
   height: "100%",
 });
 
-export const Content = styled("div", {
-  padding: 25,
-  paddingRight: 0,
-  height: "100%",
-  border: "1px solid #e0e0e0",
+export const Canvas = styled("section", {
   position: "relative",
+  height: "100%",
   background: "white",
-  display: "flex",
+  border: "1px solid #e0e0e0",
+  padding: 20,
 
-  ".left": {
+  display: "flex",
+  flexDirection: "column",
+
+  header: {
+    h1: { fontSize: 24 },
+    h3: { fontSize: 14, fontWeight: "normal" },
+  },
+
+  main: {
+    height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    flex: 1,
-  },
+    alignItems: "center",
 
-  ".right": {
-    width: 140,
-    fontSize: 10,
-  },
-});
-
-export const Header = styled("header", {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: 15,
-
-  "& div:nth-child(1)": {
-    flex: 3,
-    display: "flex",
-    flexDirection: "column",
-
-    h2: {
-      fontSize: 18,
-      marginBottom: 5,
+    section: {
+      flex: 2,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: -140,
     },
 
-    h3: {
-      fontSize: 16,
-      fontWeight: "normal",
+    footer: {
+      flex: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
+      fontSize: 14,
+      textAlign: "center",
+      fontWeight: "lighter",
+      maxWidth: 600,
     },
   },
 
-  "& div:nth-child(2)": {
-    flex: 1,
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-});
-
-export const Playground = styled("div", {
-  flex: 1,
-  display: "grid",
-  gridTemplateColumns: "1fr 3fr 1fr",
-  alignItems: "center",
-  alignSelf: "center",
-  width: "100%",
-
-  "& div:nth-child(2)": {
+  "> footer": {
+    marginTop: "auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: "0 60px",
+    padding: "20px 0",
   },
 });
 
-export const Actions = styled("footer", {
-  padding: 25,
+export const MiniMap = styled("ol", {
+  position: "absolute",
+  top: 10,
+  right: 10,
+  width: 300,
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-
-  span: {
-    fontSize: 18,
-    textAlign: "center",
-    display: "block",
-    marginTop: "auto",
-    minHeight: 80,
-  },
-
-  div: {
-    display: "flex",
-    gap: 15,
-    marginTop: 25,
+  alignItems: "flex-end",
+  pointerEvents: "none",
+  padding: 10,
+  fontSize: 10,
+  color: "rgba(0, 0, 0, 0.7)",
+  gap: 5,
+  listStyle: "none",
+  li: {
+    textAlign: "right",
   },
 });

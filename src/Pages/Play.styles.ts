@@ -57,6 +57,7 @@ export const Canvas = styled("section", {
     justifyContent: "center",
     alignItems: "center",
     padding: "20px 0",
+    gap: 10,
   },
 });
 

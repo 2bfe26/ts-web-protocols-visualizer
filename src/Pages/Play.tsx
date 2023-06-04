@@ -33,19 +33,37 @@ export function Play() {
   } as State);
 
   const [modalRetry, setModalRetry] = useState(false);
+  const [lastChosenAction, setLastChosenAction] = useState("");
 
   const context: Context = useMemo(
     () => ({
+      vars: {
+        "anterior.nome": state.stepPrev?.nome,
+        "anterior.acao": lastChosenAction,
+      },
       fns: {
+        alerta: (...v: any) => {
+          alert(v.join(" "));
+        },
         proximo: () => dispatch({ type: "NEXT_STEP" }),
+        anterior: () => dispatch({ type: "PREV_STEP" }),
         irPara: (p: number) => dispatch({ type: "SET_STEP", payload: p - 1 }),
         fim: () => {
           setModalRetry(true);
           dispatch({ type: "SET_DONE", payload: true });
         },
+        when(value: any, cases: any) {
+          for (const [k, v] of cases) {
+            if (value == k) {
+              console.log("call?");
+              // @ts-ignore
+              v.call();
+            }
+          }
+        },
       },
     }),
-    [setModalRetry]
+    [setModalRetry, state, lastChosenAction]
   );
 
   if (!state.stepCurrent) {
@@ -129,8 +147,14 @@ export function Play() {
 
         <footer>
           {Object.entries(state.stepCurrent["ações"]).map(([label, expr]) => (
-            <Button key={label} onClick={() => run_expr(expr, context)}>
-              {label}
+            <Button
+              key={label}
+              onClick={() => {
+                setLastChosenAction(label);
+                run_expr(expr, context);
+              }}
+            >
+              {label.replaceAll("_", " ")}
             </Button>
           ))}
         </footer>

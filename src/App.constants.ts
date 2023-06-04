@@ -146,7 +146,61 @@ const TLS_1_3_CONN = {
   `,
 };
 
+const EXAMPLE = {
+  id: "3",
+  title: "Fluxo de exemplo",
+  description: "Demonstrativo de capacidades do projeto",
+  src: `
+    entidades:
+      - nome: c
+        tipo: cliente
+      - nome: s
+        tipo: cliente
+
+    primeiroPasso: 1
+
+    passos:
+      - nome: Passo 1
+        mostrar:
+          flecha: [c, s]
+        ações:
+          continuar: proximo()
+          continuar_de_outra_forma: proximo()
+        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
+
+      - nome: Passo 2
+        mostrar:
+          texto: hmmmmmm ....
+        ações:
+          voltar: anterior()
+          continuar: >
+            when(anterior.acao, [
+              ["continuar", irPara!(4)],
+              ["continuar_de_outra_forma", irPara!(3)]
+            ])
+
+      - nome: Passo 3
+        mostrar:
+          texto: Você só está vendo esse passo por que escolheu "continuar_de_outra_forma"
+        ações:
+          continuar: proximo()
+          voltar: anterior()
+          mostrar_etapa_anterior: alerta("O passo anterior foi ", anterior.nome)
+        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
+
+      - nome: Passo 4
+        mostrar:
+          texto: fim do exemplo
+        ações:
+          voltar: anterior()
+          finalizar: fim()
+        descricao: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus atque exercitationem aperiam reprehenderit est sequi nam at? Libero dolor cum veritatis, at ea quos.
+
+`,
+};
+
 export const DEFAULT_VISUALIZATIONS: V[] = [
   { ...TLS_1_2_CONN, parsed: parserV(TLS_1_2_CONN.src) },
   { ...TLS_1_3_CONN, parsed: parserV(TLS_1_3_CONN.src) },
+  { ...EXAMPLE, parsed: parserV(EXAMPLE.src) },
 ];

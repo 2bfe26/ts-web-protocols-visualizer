@@ -6,7 +6,7 @@ const fadeIn = keyframes({
 });
 
 export const Root = styled("div", {
-  minWidth: 400,
+  width: 400,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",

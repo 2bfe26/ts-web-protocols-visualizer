@@ -40,6 +40,7 @@ export function Play() {
       vars: {
         "anterior.nome": state.stepPrev?.nome,
         "anterior.acao": lastChosenAction,
+        orElse: Symbol("orElse"),
       },
       fns: {
         alerta: (...v: any) => {
@@ -52,11 +53,17 @@ export function Play() {
           setModalRetry(true);
           dispatch({ type: "SET_DONE", payload: true });
         },
-        when(value: any, cases: any) {
+        when: (value: any, cases: any) => {
           for (const [k, v] of cases) {
             if (value == k) {
               console.log("call?");
               // @ts-ignore
+              v.call();
+              return;
+            }
+
+            // @ts-ignore
+            if (k === context.vars.orElse) {
               v.call();
             }
           }

@@ -176,7 +176,8 @@ const EXAMPLE = {
           continuar: >
             when(anterior.acao, [
               ["continuar", irPara!(4)],
-              ["continuar_de_outra_forma", irPara!(3)]
+              ["continuar_de_outra_forma", irPara!(3)],
+              [orElse, alerta!("Isso não devia acontecer whoa")]
             ])
 
       - nome: Passo 3

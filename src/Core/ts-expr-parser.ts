@@ -1,6 +1,11 @@
 // EXTRACTED FROM: https://github.com/2bfe26/ts-expr-parser
 
 export function run_expr(src: string, context?: Context) {
+  if (!src) {
+    return "";
+  }
+  console.log({ src });
+
   const l = create_lexer(src);
   const ast = create_node(l);
 

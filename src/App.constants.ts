@@ -127,7 +127,7 @@ const TLS_1_3_CONN = {
           flecha: [c, s]
         ações:
           continuar: proximo()
-          continuar_com_versão_não_suportada: irPara(4)
+          erro_1: irPara(4)
         descricao: O cliente inicia a comunicação enviando uma mensagem "Client Hello" ao servidor. Essa mensagem contém as suítes de criptografia suportadas, possíveis protocolos de acordo de chave e uma chave compartilhada para adivinhar o acordo de chave.
     
       - nome: Server Hello + Key Agreement Protocol + Key Share + Server finished
@@ -144,7 +144,8 @@ const TLS_1_3_CONN = {
           finalizar: fim()
         descricao: O cliente verifica o certificado recebido do servidor, verifica sua autenticidade e gera chaves de criptografia. Em seguida, o cliente envia uma mensagem "Client finished" indicando que a negociação está concluída no lado do cliente.
   
-      - nome: TLS Version is not supported
+      - nome: Protocol Mismatch
+        descricao: Protocolo usado pelo cliente não é suportado pelo servidor
         mostrar:
           flecha: [s, c]
         ações:
@@ -152,7 +153,7 @@ const TLS_1_3_CONN = {
         
       - nome: TLS connection closed
         mostrar:
-          texto: Conexão fechada
+          texto: Conexão finalizada
         ações:
           finalizar: fim()
         
